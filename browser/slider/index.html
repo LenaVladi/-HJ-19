@@ -31,5 +31,16 @@
       </div>
     </div>
   </section>
+  <script>
+      let slider = document.getElementById("slider");
+      let photo = ["./i/airmax-jump.png", "./i/airmax-on-foot.png", "./i/airmax-playground.png", "./i/airmax-top-view.png", "./i/airmax.png"];
+      //photo.forEach(pic => setInterval(slider.src = pic, 5000));
+      //slider.src = setInterval(() => { photo.forEach(i => photo[i]) }, 5000);
+      let pic = 0;
+      setInterval(() => {
+        slider.src = photo[pic];
+        pic = (pic+1)%photo.length;
+        }, 5000);
+  </script>
 </body>
 </html>
