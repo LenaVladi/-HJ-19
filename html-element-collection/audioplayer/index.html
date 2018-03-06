@@ -48,6 +48,7 @@
     const next = mediaplayer.getElementsByClassName('next')[0];
     const play = playPause.getElementsByClassName('fa-play')[0];
     const pause = playPause.getElementsByClassName('fa-pause')[0];
+    const musics = ['./mp3/LA Chill Tour.mp3', './mp3/LA Fusion Jam.mp3', './mp3/This is it band.mp3'];
     console.log(mediaplayer, audio, title, playPause, stop, back, next, play, pause);
     console.log(play.className);
     playPause.onclick = () => {
@@ -61,6 +62,12 @@
         play.classList.add('fa-play');
       }
     }
+    stop.onclick = () => {
+      audio.pause();
+      audio.currentTime = 0;
+      play.classList.add('fa-play');
+    }
+
 
   </script>
 </body>
