@@ -34,19 +34,39 @@
   const audiosArray = Array.from(audios);
   console.log(setPiano, audios, sounds);
 
-  for(let a in audiosArray) {
-    for(let i in sounds){
-      audiosArray[a].src = `sounds/middle/${sounds[a]}`;
-      }
+  // for(let a in audiosArray) {
+  //   for(let i in sounds){
+  //     audiosArray[a].src = `sounds/middle/${sounds[a]}`;
+  //     }
+  //   }
+
+    function audioSrc(event){
+      
+      for(let a in audiosArray) {
+        for(let i in sounds){
+          audiosArray[a].src = `${modulePiano(event)}${sounds[a]}`;
+
+          }
+        }
     }
 
   for(const li of liAudio) {
-    li.onclick = () => {
+    li.addEventListener('keypress', audioSrc);
+    li.addEventListener('click', () => {
       li.getElementsByTagName('audio')[0].play();
       console.log(li.getElementsByTagName('audio')[0]);
-    }
+    });
   }
 
+  function modulePiano(event) {
+    if(event.shiftKey){
+      return `sounds/lower/`;
+    } else if(event.altKey) {
+      return `sounds/higher/`;
+    } else {
+      return `sounds/middle/`;
+    }
+  }
 
 
 
