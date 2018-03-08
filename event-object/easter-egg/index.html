@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Задача 2. «Пасхалка» | Домашнее задание к лекции 2.1</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://use.fontawesome.com/70378a66b8.js"></script>
+</head>
+<body>
+  <nav>
+    <a href="#">Главная</a>
+    <a href="#">Статьи</a>
+    <a href="#">Новости</a>
+    <a href="#">Контакты</a>
+  </nav>
+
+  <main>
+    <div class="menu-tip">
+      <div class="menu-icon">
+        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <h1>Контент</h1>
+
+    <div class="secret">
+      <svg viewBox="0 0 600 300">
+
+        <!-- Symbol -->
+        <symbol id="s-text">
+          <text text-anchor="middle"
+                  x="50%" y="50%" dy=".35em">
+             нетология
+           </text>
+        </symbol>
+
+        <!-- Duplicate symbols -->
+        <use xlink:href="#s-text" class="text"></use>
+        <use xlink:href="#s-text" class="text"></use>
+        <use xlink:href="#s-text" class="text"></use>
+        <use xlink:href="#s-text" class="text"></use>
+        <use xlink:href="#s-text" class="text"></use>
+      </svg>
+    </div>
+  </main>
+  <script>
+    const nav = document.getElementsByTagName('nav')[0];
+    const secret = document.getElementsByClassName('secret')[0];
+    const sText = document.getElementById('s-text');
+
+    function openCloseNav(event) {
+      if(event.ctrlKey) {
+        switch (event.code) {
+          case 'KeyT':
+            nav.classList.toggle('visible');
+            break;
+          default:
+        }
+      }
+    }
+
+    document.addEventListener('keydown', openCloseNav)
+
+    document.addEventListener('keydown', secretCode);
+
+    const bingo = ['KeyY', 'KeyT', 'KeyN', 'KeyJ', 'KeyK', 'KeyJ', 'KeyU', 'KeyB', 'KeyZ'];
+    const keys = [];
+    function secretCode(event) {
+      keys.push(event.code);
+      if(keys.length >= 9) {
+        keys.join('').substr(-36);
+          if(keys.join('').substr(-36) === bingo.join('')){
+            return secret.classList.toggle('visible');
+          }
+      }
+      console.log(keys.join('').substr(-36), keys, bingo.join(''));
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>
