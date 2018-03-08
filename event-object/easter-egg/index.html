@@ -51,13 +51,8 @@
     const sText = document.getElementById('s-text');
 
     function openCloseNav(event) {
-      if(event.ctrlKey) {
-        switch (event.code) {
-          case 'KeyT':
-            nav.classList.toggle('visible');
-            break;
-          default:
-        }
+      if(event.ctrlKey && event.altKey && event.code === 'KeyT') {
+        nav.classList.toggle('visible');
       }
     }
 
