@@ -1,2 +1,4 @@
 // Инициализация функционала модального окна
-initModalUi();
+const touchMe = document.querySelector('a.btn')
+
+touchMe.addEventListener('click', initModalUi);
