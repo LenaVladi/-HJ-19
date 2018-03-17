@@ -5,7 +5,6 @@
 //   const response = JSON.parse(request.responseText);
 //   setData(response);
 // }
-
 const request = new XMLHttpRequest();
 request.addEventListener('load', display)
 request.open('GET', 'https://netology-fbb-store-api.herokuapp.com/weather');
