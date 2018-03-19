@@ -26,3 +26,27 @@ document.getElementById('content').addEventListener('click', (event) => {
       document.getElementById('card-price').innerHTML = target.dataset.price;
     }
 });
+
+/* Мой код */
+
+const content = document.getElementById('content');
+
+var booksCatalog = new XMLHttpRequest();
+booksCatalog.open(
+  "GET",
+  "https://neto-api.herokuapp.com/book/"
+);
+booksCatalog.send();
+
+booksCatalog.addEventListener("load", booksParse);
+
+function booksParse() {
+  const books = JSON.parse(booksCatalog.responseText);
+  console.log(books);
+  for(let book of books){
+    console.log(book.title);
+    let newLi = document.createElement('li');
+    //newLi.dataset.title = book.title;
+    //contact.appendChild(newLi);
+  }
+}
