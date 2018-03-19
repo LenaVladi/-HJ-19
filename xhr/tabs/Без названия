@@ -1,0 +1,16 @@
+'use strict';
+const tabs = document.getElementsByClassName('tabs');
+//console.log(tabs);
+
+function showTabs(event) {
+  console.log(event, event.href);
+  event.preventDefault();
+  event.classList.toggle('active');
+  let href = event.href;
+  document.getElementByID('content').innerHTML = href;
+}
+
+for(const tab of tabs) {
+  console.log(tab);
+  tab.addEventListener('click', showTabs);
+}
