@@ -2,16 +2,19 @@
 
 function toggleMenu(event) {
   if (this.classList.contains('show')) {
-    this.classList.remove('show');
-    this.classList.add('hide');
+    event.currentTarget.classList.remove('show');
+    event.currentTarget.classList.add('hide');
   } else {
-    this.classList.add('show');
-    this.classList.remove('hide');
+    event.currentTarget.classList.add('show');
+    event.currentTarget.classList.remove('hide');
   }
+
 }
 
 function openLink(event) {
+  event.preventDefault();
   console.log(this.textContent);
+  event.stopPropagation();
 }
 
 function init(node) {
