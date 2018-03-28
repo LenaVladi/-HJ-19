@@ -15,29 +15,29 @@ console.log(mediaplayer, audio, title, playPause, stop, back, next, play, pause)
 console.log(play.className);
 
 playPause.onclick = () => {
-  if(play.classList.contains('fa-play')){
+  if (!mediaplayer.classList.contains('play')) {
     audio.play();
-    play.classList.remove('fa-play');
     mediaplayer.classList.add('play');
-    pause.classList.add('fa-pause');
   } else {
     audio.pause();
-    pause.classList.remove('fa-pause');
     mediaplayer.classList.remove('play');
-    play.classList.add('fa-play');
   }
 }
 
 stop.onclick = () => {
   audio.pause();
   audio.currentTime = 0;
-  play.classList.add('fa-play');
+  //play.classList.add('fa-play');
+  mediaplayer.classList.remove('play');
 }
 
 let n = 0;
 function nextBackSong(i) {
   n = (i+musics.length)%musics.length;
   audio.src = musics[n];
+  if(mediaplayer.classList.contains('play')){
+    audio.play();
+  }
   return audio.src;
 }
 
