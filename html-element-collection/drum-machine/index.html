@@ -34,15 +34,6 @@
   		<audio src="wav/ride.wav" />
   	</li>
   </ul>
-  <script>
-    const liClick = document.getElementsByTagName('li');
-    console.log(liClick);
-    for(const li of liClick){
-      const audio = li.getElementsByTagName('audio')[0];
-      li.onclick = () => {
-        audio.play();
-      }
-    }
-  </script>
+  <script src='./js/script.js'></script>
 </body>
 </html>
