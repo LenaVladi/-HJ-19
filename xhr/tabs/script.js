@@ -6,34 +6,30 @@ const preloader = document.getElementById('preloader');
 console.log(tabs);
 let contentTabs = new XMLHttpRequest();
 
-function toggleTabs(event) {
-  for(let tab of tabs) {
-    tab.classList.toggle('active');
-  }
+function addPreloader() {
+  preloader.classList.add('hidden');
+}
+
+function getContentTabs(event) {
+  content.innerHTML = contentTabs.responseText;
 }
 
 function showTabs(event) {
   event.preventDefault();
-  toggleTabs(event);
-  let href = event.target.href;
-  contentTabs.addEventListener('loadstart', preloader.classList.toggle('hidden'));
-  contentTabs.addEventListener('load', getContentTabs(href));
-}
-
-function getContentTabs(href) {
-  console.log(contentTabs, href);
-  contentTabs.open(
-    "GET", href
-  );
+  contentTabs.open("GET", event.target.href);
   contentTabs.send();
-  console.log(contentTabs);
+  if (event.target.classList.contains('active')) {
+    return;
+  } else {
+    for(let tab of tabs) {
+      tab.classList.remove('active');
+    }
+    event.target.classList.add('active');
+    contentTabs.addEventListener('loadstart', addPreloader);
+    contentTabs.addEventListener('load', getContentTabs);
+  }
 }
-
-
-
 
 for(let tab of tabs) {
-  console.log(tab);
   tab.addEventListener('click', showTabs);
-
 }
