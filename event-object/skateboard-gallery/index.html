@@ -33,38 +33,6 @@
       <img src="images/thumb/07.jpg" title="EGGBEATER">
     </a>
   </nav>
-  <script>
-    const view = document.getElementById('view');
-    const nav = document.getElementById('nav');
-    const blank = nav.getElementsByTagName('a');
-
-    function galleryCurrent(event) {
-      event.preventDefault();
-      this.addEventListener('click', () => {
-        for(const a of blank){
-          if(a !== this){
-            a.classList.remove('gallery-current');
-            this.classList.add('gallery-current');
-          } else {
-            return;
-          }
-        }
-      });
-    }
-
-    function galleryView(event) {
-      event.preventDefault();
-      console.log(view.src, this.href);
-      view.src = this.href;
-    }
-
-    for(const a of blank) {
-      a.addEventListener('click', galleryCurrent);
-      a.addEventListener('click', galleryView);
-      console.log(a);
-    }
-
-
-  </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
