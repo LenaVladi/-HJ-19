@@ -6,7 +6,6 @@ function toggleCardVisible () {
  document.getElementById('card').classList.toggle('hidden');
 }
 
-
 document.getElementById('close').addEventListener('click', toggleCardVisible);
 
 document.getElementById('content').addEventListener('click', (event) => {
@@ -44,9 +43,18 @@ function booksParse() {
   const books = JSON.parse(booksCatalog.responseText);
   console.log(books);
   for(let book of books){
-    console.log(book.title);
-    let newLi = document.createElement('li');
-    //newLi.dataset.title = book.title;
-    //contact.appendChild(newLi);
+    createBookCatalog(book);
   }
+}
+
+function createBookCatalog(book) {
+  let newLi = document.createElement('li');
+  newLi.dataset.title = book.title;
+  newLi.dataset.author = book.author.name;
+  newLi.dataset.info = book.info;
+  newLi.dataset.price = book.price;
+  let imgSmall = document.createElement('img');
+  imgSmall.src = book.cover.small;
+  newLi.appendChild(imgSmall);
+  content.appendChild(newLi);
 }
