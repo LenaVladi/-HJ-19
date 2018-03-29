@@ -28,7 +28,9 @@ document.getElementById('content').addEventListener('click', (event) => {
 
 /* Мой код */
 
+
 const content = document.getElementById('content');
+content.removeChild(content.firstElementChild);
 
 var booksCatalog = new XMLHttpRequest();
 booksCatalog.open(
