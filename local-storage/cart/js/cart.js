@@ -138,7 +138,7 @@ function snippeCart(node) {
     node.lastChild.lastChild.appendChild(spanPrice);
 
 console.log(node);
-}
+} 
 
 snippeCart(quickCart);
 
