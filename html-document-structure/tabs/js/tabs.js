@@ -11,14 +11,12 @@ Array.from(tabsContent).forEach(tab => tab.classList.toggle('hidden'));
 let activeTab = tabsContent[0].classList.remove('hidden');
 activeTab = tabsContent[0].classList.add('ui-tabs-active');
 
-
-
 for (let i = 0; i < tabsContent.length; i++) {
   let li = document.createElement('li');
-  li.classList.add(tabsContent[i].getAttribute('data-tab-icon'));
   let a = document.createElement('a');
+  a.innerText = tabsContent[i].dataset.tabTitle;
   a.classList.add('fa');
-  a.textContent = tabsContent[i].getAttribute('data-tab-title');
+  a.classList.add(tabsContent[i].dataset.tabIcon);
   li.appendChild(a);
   tabsNav.appendChild(li);
 }
@@ -27,18 +25,18 @@ for (let i = 0; i < tabsContent.length; i++) {
 
 function tabsShow(event) {
   event.preventDefault();
-  console.log(event.target.textContent);
+  const prevActiveTab = tabsNav.querySelector('.ui-tabs-active')
+    if (prevActiveTab) {
+      prevActiveTab.classList.remove('ui-tabs-active');
+    }
   Array.from(tabsContent).forEach(tab => {
     console.log(tab.dataset.tabTitle);
     tab.classList.add('hidden');
     if (event.target.textContent === tab.dataset.tabTitle) {
       tab.classList.remove('hidden');
-      tab.classList.add('ui-tabs-active');
+      event.target.classList.add('ui-tabs-active');
     }
   });
-
-
-
 }
 
 Array.from(tabsNav.children).forEach(tab => tab

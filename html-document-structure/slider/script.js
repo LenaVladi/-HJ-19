@@ -1,69 +1,58 @@
 'use strict';
-const sliderNav = document.querySelector('.slider-nav');
-const navCollection = sliderNav.getElementsByTagName('a');
+const slider = document.getElementsByClassName('slider')[0];
+const navCollection = document.querySelectorAll('.slider-nav > a'),
+  prevSlide = navCollection[0],
+  nextSlide = navCollection[1],
+  firstSlide = navCollection[2],
+  lastSlide = navCollection[3];
+
 const slides = document.getElementsByClassName('slides')[0];
 const slideCollection = slides.querySelectorAll('.slide');
+
 slideCollection[0].classList.add('slide-current');
-navCollection[0].classList.add('disabled');
-navCollection[2].classList.add('disabled');
-let slideCurrent = document.querySelector('.slide-current');
 
-console.log(sliderNav, navCollection, slides, slideCollection);
+//console.log(navCollection, slides, slider, prevSlide, slideCollection);
 
-// function disable(event) {
-//   if ('first') {
-//     event.target.disabled =  slideCollection[0] ? false : true;
-//   } else if ('prev') {
-//     event.target.disabled = slideCurrent.previousElementSibling ? false : true;
-//   } else if ('next') {
-//     event.target.disabled = slideCurrent.nextElementSibling ? false : true;
-//   } else {
-//     event.target.disabled = slideCollection[slideCollection.length - 1] ? false : true;
-//   }
-// }
+prevSlide.classList.add('disabled');
+firstSlide.classList.add('disabled');
 
-// function disable(event) {
-//   let btn = Array.from(navCollection);
-//   if (slideCollection[0]) {
-//     btn[0].classList.toggle('disabled');
-//     btn[btn.length].classList.toggle('disabled');
-//   } else if (!slideCurrent.previousElementSibling) {
-//     event.target.classList.toggle('disabled');
-//   } else if (!slideCurrent.nextElementSibling) {
-//     event.target.classList.toggle('disabled');
-//   } else if (slideCollection[slideCollection.length - 1]) {
-//     event.target.classList.toggle('disabled');
-//   }
-// }
+function sliderShow(elem) {
+  let activeElement = document.querySelector('.slide-current');
 
+  if (elem.target.classList.contains('disabled')) {
+    return;
+  };
 
-function buttonName(event) {
-  switch (event.target.dataset.action) {
-    case 'next':
-      slideCurrent = slideCurrent.nextElementSibling;
+  Array.from(slider.getElementsByClassName('disabled')).forEach(button => button.classList.remove('disabled'));
+  activeElement.classList.remove('slide-current');
+
+  let data = elem.target.dataset.action;
+  switch (data) {
+    case 'prev': 
+      activeElement = activeElement.previousElementSibling;
       break;
-    case 'prev':
-      slideCurrent = slideCurrent.previousElementSibling;
+    case 'next': 
+      activeElement = activeElement.nextElementSibling;
       break;
-    case 'first':
-      slideCurrent = slideCollection[0];
+    case 'first': 
+      activeElement = slides.firstElementChild;
       break;
-    case 'last':
-      let last = slideCollection.length;
-      slideCurrent = slideCollection[last - 1];
+    case 'last': 
+      activeElement = slides.lastElementChild;
       break;
+  };
+  
+  activeElement.classList.add('slide-current');
+  if (!activeElement.previousElementSibling) {
+    prevSlide.classList.add('disabled');
+    firstSlide.classList.add('disabled');
+  }
+  if (!activeElement.nextElementSibling) {
+    nextSlide.classList.add('disabled');
+    lastSlide.classList.add('disabled');
   }
 }
 
-
-
 for (let a of navCollection) {
-  a.addEventListener('click', event => {
-    event.preventDefault();
-    console.log(event.target.dataset.action);
-    slideCurrent.classList.remove('slide-current');
-    buttonName(event);
-    slideCurrent.classList.add('slide-current');
-    disable(event);
-  });
+  a.addEventListener('click', () => sliderShow(event));
 }
