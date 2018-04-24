@@ -8,5 +8,5 @@ connection.addEventListener('message', event => {
 });
 
 
-document.addEventListener('close', connection.addEventListener('close', ev => { 1000; }));
+document.addEventListener('close', connection.addEventListener('close', event => { 1000; }));
 //connection.addEventListener('close', 1000);

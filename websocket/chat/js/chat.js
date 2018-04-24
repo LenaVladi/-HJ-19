@@ -3,45 +3,54 @@
 const chat = document.querySelector('.chat');
 const connection = new WebSocket('ws://neto-api.herokuapp.com/chat');
 const chatStatus = chat.querySelector('.chat-status');
-const messageSubmit = chat.querySelector('.message-submit');
+const 
+    messageSubmit = chat.querySelector('.message-submit'),
+    messagesContent = chat.querySelector('.messages-content'),
+    messagesTemplate = chat.querySelector('.messages-templates'),
+    messageStatus = messagesTemplate.querySelector('.message-status'),
+    statusContent = messageStatus.querySelector('.message-text'),
+    messageTypeTemplate = messagesTemplate.querySelector('.loading'),
+    messageTypeText = messageTypeTemplate.getElementsByTagName('.span'),
+    messageTemplate = messageTypeTemplate.nextElementSibling,
+    messageText = messageTemplate.querySelector('.message-text'),
+    messageTime = messageTemplate.querySelector('.timestamp'),
+    messagePersonal = messagesTemplate.querySelector('.message-personal'),
+    personalText = messagePersonal.querySelector('.message-text'),
+    personalTime = messagePersonal.querySelector('.timestamp');
 
 connection.addEventListener('open', () => {
-    chatStatus.textContent = chatStatus.dataset.online;
+    chatStatus.textContent = chatStatus.getAttribute('data-online');
     messageSubmit.removeAttribute('disabled');
-    console.log('Пользователь появился в сети');
-    //обновить статус 
-    //вывести сообщение
-    //активировать кнопку
-  });
+    statusContent.textContent = 'Пользователь появился в сети';
+    messagesContent.appendChild(messageStatus.cloneNode(true));
+});
+
+function getMessageTime() {
+    let hours = (new Date()).getHours(),
+        minutes = (new Date()).getMinutes();
+    if (hours < 10) {
+        hours = '0' + hours;
+    };
+    if (minutes < 10) {
+        minutes = '0' + minutes
+    }
+    return (hours + ':' + minutes)
+};
 
 connection.addEventListener('message', event => {
     console.log(event);
     if (event.data === '...') {
-        chat.querySelector('.messages.loading').textContent = 'собеседник печатает сообщение...';   
+        messageTypeText.textContent = 'Пользователь печатает сообщение';
+        messagesContent.appendChild(messageTypeTemplate.cloneNode(true)); 
     } else {
-        console.log(chat.querySelector('.messages').querySelector('.message-text'));
-        chat.querySelector('.messages').querySelector('.message-text').textContent = event.data;
+        Array.from(messagesContent.getElementsByClassName('loading')).forEach(message => {
+            messagesContent.removeChild(message);
+          })
+          messageTime.textContent = getMessageTime();
+          messageText.textContent = event.data;
+          messagesContent.appendChild(messageTemplate.cloneNode(true));
     }
-   //проверить текст сообщения. Если он равен ... (три точки), 
-   //то необходимо отобразить информацию о том, что собеседник сейчас печатает сообщение. 
-   //Если текст сообщения другой, то необходимо отобразить сообщение с этим текстом. 
-   //А информацию о том, что собеседник печатает, необходимо удалить.
 });
-
-chat.querySelector('.message-box');
-chat.querySelector('.message-input');
-
-chat.querySelector('.messages-content');
-chat.querySelector('.messages-templates');
-chat.querySelector('.messages.loading');
-chat.querySelector('.message-personal');
-chat.querySelector('.message-text');
-chat.querySelector('.timestamp');
-chat.querySelector('.message-status');
-chat.querySelector('.message-personal').querySelector('.message-text');
-chat.querySelector('.chat-status');
-
-connection.send('Простое сообщение, отправленноечерез websocket');
 
 /* При отправке сообщения пользователем через форму 
 (кнопка «Отправить сообщение» или клавиша Enter в поле ввода сообщения) 
@@ -50,6 +59,19 @@ connection.send('Простое сообщение, отправленноече
 
 if (connection.addEventListener('close', event => {
     console.log('Пользователь не в сети');
-    //поменять статус чата
-    //деактивировать кнопку «Отправить сообщение»
-  }));
+    chatStatus.textContent = chatStatus.getAttribute('data-offline');    
+    messageSubmit.setAttribute('disabled', 'disabled'); 
+    statusContent.textContent = 'Пользователь не в сети';
+    messagesContent.appendChild(messageStatus.cloneNode(true));
+}));
+
+messageSubmit.addEventListener('click', () => {
+    event.preventDefault();
+    if (messageInput.value !== '') {
+        personalText.textContent = messageInput.value;
+        messageInput.value = '';
+        personalTime.textContent = getMessageTime();
+        messagesContent.appendChild(messagePersonal.cloneNode(true));
+        chatConnection.send(personalText.textContent);
+    }
+  });
