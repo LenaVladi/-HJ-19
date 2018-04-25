@@ -3,12 +3,16 @@
 const signInHtm = document.querySelector('.sign-in-htm');
 const signUpHtm = document.querySelector('.sign-up-htm');
 const buttons = document.querySelectorAll('.button');
-const errorMessage = document.querySelectorAll('.error-message');
 
 const urlSignIn = 'https://neto-api.herokuapp.com/signin';
 const urlSignUp = 'https://neto-api.herokuapp.com/signup';
 
+//Запрос на сервер для обеих формЖ принимает параметры:
+//url - адрес запроса
+//form - объект FormData как есть
+//target - value формы вход/регистрация (для вывода сообщений об авторизации)
 function getAutorization(url, form, target) {
+    //подготовка FormData к отправке на сервер
   let data = {};
   for (const [k, v] of form) {
     data[k] = v;
