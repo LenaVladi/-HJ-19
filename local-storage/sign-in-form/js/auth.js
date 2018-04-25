@@ -3,52 +3,55 @@
 const signInHtm = document.querySelector('.sign-in-htm');
 const signUpHtm = document.querySelector('.sign-up-htm');
 const buttons = document.querySelectorAll('.button');
-const errorMessage = document.querySelector('.error-message');
+const errorMessage = document.querySelectorAll('.error-message');
+
 const urlSignIn = 'https://neto-api.herokuapp.com/signin';
 const urlSignUp = 'https://neto-api.herokuapp.com/signup';
 
-function getAutorization(url, form) {
+function getAutorization(url, form, target) {
   let data = {};
   for (const [k, v] of form) {
     data[k] = v;
   }
   fetch(url, {
-    method: 'POST',
+    body: JSON.stringify(data),
     headers: {
         'Content-Type': `application/json`
     },
-    body: JSON.stringify(data),
-    credentials: 'same-origin'
+    method: 'POST',
+    credentials: 'same-origin',
     }).then((res) => {
         if (200 <= res.status && res.status < 300) {
           return res;
         }
         throw new Error(response.statusText);
     }).then((res) => res.json()).then((data) => { 
-            data;
-            console.log(data);
-        }).catch((error) => { 
-            error;
-            console.log(error);
-        });
+        data;
+        if (data.error) {
+            document.querySelector('.error-message').textContent = data.message;
+        } else {
+            if (target === 'Войти') {
+                document.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно авторизован`;
+            } else {
+                document.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно зарегистрирован`;
+            }
+        }
+        console.log(data);
+    }).catch((error) => { 
+        error;
+        console.log(error);
+    });
     console.log(data);
 }
 
-
-
 for ( let btn of buttons) {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (event) => {
         event.preventDefault();
+
         if (event.target.value === 'Войти') {
-            const result = getAutorization(urlSignIn, new FormData(signInHtm));
-            if (result !== undefined) {
-                errorMessage.textContent = result.message;
-                console.log(result.message);
-            }
+            const result = getAutorization(urlSignIn, new FormData(signInHtm), event.target.value);
         } else {
-            const result = getAutorization(urlSignUp, new FormData(signInHtm));
-            
-            console.log(result);
+            const result = getAutorization(urlSignUp, new FormData(signUpHtm), event.target.value);
         } 
     })
 }
