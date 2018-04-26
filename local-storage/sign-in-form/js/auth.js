@@ -20,43 +20,47 @@ function getAutorization(url, form, target) {
   fetch(url, {
     body: JSON.stringify(data),
     headers: {
-        'Content-Type': `application/json`
+      'Content-Type': `application/json`
     },
     method: 'POST',
     credentials: 'same-origin',
     }).then((res) => {
-        if (200 <= res.status && res.status < 300) {
-          return res;
-        }
-        throw new Error(response.statusText);
+      if (200 <= res.status && res.status < 300) {
+        return res;
+      }
+      throw new Error(response.statusText);
     }).then((res) => res.json()).then((data) => { 
-        data;
+      data;
+      if (target === 'Войти') {
         if (data.error) {
-            document.querySelector('.error-message').textContent = data.message;
+          signInHtm.querySelector('.error-message').textContent = data.message;
         } else {
-            if (target === 'Войти') {
-                document.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно авторизован`;
-            } else {
-                document.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно зарегистрирован`;
-            }
-        }
-        console.log(data);
+          signInHtm.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно авторизован`;
+        } 
+      } else {
+        if (data.error) {
+          signUpHtm.querySelector('.error-message').textContent = data.message;
+        } else {
+          signUpHtm.querySelector('.error-message').textContent  = `Пользователь ${data.name} успешно зарегистрирован`;
+        } 
+      }
+      console.log(data);
     }).catch((error) => { 
-        error;
-        console.log(error);
+      error;
+      console.log(error);
     });
     console.log(data);
 }
 
 for ( let btn of buttons) {
-    btn.addEventListener('click', (event) => {
-        event.preventDefault();
+  btn.addEventListener('click', (event) => {
+    event.preventDefault();
 
-        if (event.target.value === 'Войти') {
-            const result = getAutorization(urlSignIn, new FormData(signInHtm), event.target.value);
-        } else {
-            const result = getAutorization(urlSignUp, new FormData(signUpHtm), event.target.value);
-        } 
-    })
+    if (event.target.value === 'Войти') {
+      const result = getAutorization(urlSignIn, new FormData(signInHtm), event.target.value);
+    } else {
+      const result = getAutorization(urlSignUp, new FormData(signUpHtm), event.target.value);
+    } 
+  })
 }
 
