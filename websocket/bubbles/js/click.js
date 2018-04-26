@@ -1,8 +1,8 @@
-'use strinct';
+'use strict';
 
 const connection = new WebSocket('ws://neto-api.herokuapp.com/mouse');
 
-showBubbles(connection)
+showBubbles(connection);
 
 document.addEventListener('click', (event) => {
     let click = {

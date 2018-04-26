@@ -16,7 +16,8 @@ const
     messageTime = messageTemplate.querySelector('.timestamp'),
     messagePersonal = messagesTemplate.querySelector('.message-personal'),
     personalText = messagePersonal.querySelector('.message-text'),
-    personalTime = messagePersonal.querySelector('.timestamp');
+    personalTime = messagePersonal.querySelector('.timestamp'),
+    messageInput = chat.querySelector('.message-box').querySelector('.message-input');
 
 connection.addEventListener('open', () => {
     chatStatus.textContent = chatStatus.getAttribute('data-online');
@@ -72,6 +73,6 @@ messageSubmit.addEventListener('click', () => {
         messageInput.value = '';
         personalTime.textContent = getMessageTime();
         messagesContent.appendChild(messagePersonal.cloneNode(true));
-        chatConnection.send(personalText.textContent);
+        connection.send(personalText.textContent);
     }
   });
