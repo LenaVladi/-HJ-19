@@ -1,5 +1,4 @@
 'use strict';
-
 const addToCartForm = document.getElementById('AddToCartForm');
 const colorSwatch = document.getElementById('colorSwatch');
 const sizeSwatch = document.getElementById('sizeSwatch');
@@ -22,11 +21,12 @@ function snippetColorSwatch(data, number) {
   input.type = 'radio';
   input.name = 'color';
   input.value = data.type;
+  input.checked;
 
   if (!(data.isAvailable)) input.disabled = true;
 
   const label = document.createElement('label');
-  label.for = `swatch-${number}-${data.type}`;
+  label.setAttribute('for', `swatch-${number}-${data.type}`);
   label.style = `style="border-color: ${data.code};"`;
 
   const span = document.createElement('span');
@@ -38,9 +38,10 @@ function snippetColorSwatch(data, number) {
 
   node.appendChild(tooltip);
   node.appendChild(input);
+  node.appendChild(label);
   label.appendChild(span);
   label.appendChild(img);
-  node.appendChild(label);
+ 
 
   return node;
 }
@@ -61,16 +62,16 @@ function snippetSizeSwatch(data, number) {
   if (!data.isAvailable) input.disabled = true;
 
   const label = document.createElement('label');
-  label.for = `swatch-${number}-${data.type}`;
+  label.setAttribute('for', `swatch-${number}-${data.type}`);
   label.textContent = data.title;
 
-  const labelImg = document.createElement('img');
-  labelImg.classList.add('crossed-out');
-  labelImg.src =  'https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886';
+  const img = document.createElement('img');
+  img.classList.add('crossed-out');
+  img.src =  'https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886';
 
   node.appendChild(input);
-  label.appendChild(labelImg);
   node.appendChild(label);
+  label.appendChild(img);
 
   return node;
 }
@@ -94,6 +95,7 @@ function snippetProductInQuickCart(id, src, title, count, price, onHoverText) {
 }
 
 function snippeCart(sum) {
+  const node = document.createElement('div');
   const a = document.createElement('a');
   a.classList.add('cart-ico', 'open'); 
   a.id = 'quick-cart-pay';
@@ -278,3 +280,14 @@ quickCart.addEventListener('click', function (e) {
 
 // Запуск инициализации формы
 init();
+
+//выбор товара по фото
+document.querySelector('.thumbs').addEventListener('click', () => {
+   event.preventDefault();
+   document.querySelector('.active').classList.remove('active');
+   const a = event.target.parentElement.parentElement;
+   a.classList.add('active');
+   document.getElementById('big-image').style = `background-image: url("${a.href}");`;
+});
+
+
